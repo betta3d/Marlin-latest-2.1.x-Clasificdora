@@ -28,6 +28,8 @@
  *  - https://github.com/grbl/grbl
  */
 
+#include "feature/egg_weigher.h"
+
 #include "MarlinCore.h"
 
 #include "HAL/shared/Delay.h"
@@ -1136,6 +1138,8 @@ inline void tmc_standby_setup() {
  *  - Set Marlin to RUNNING State
  */
 void setup() {
+  initialize_egg_weigher();
+
   #ifdef FASTIO_INIT
     FASTIO_INIT();
   #endif

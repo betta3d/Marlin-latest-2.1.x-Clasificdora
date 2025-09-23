@@ -3736,7 +3736,8 @@
  * Add G-codes M810-M819 to define and run G-code macros.
  * Macros are not saved to EEPROM.
  */
-//#define GCODE_MACROS
+#define GCODE_MACROS
+#define GCODE_MACROS_M42_P_EXPANDER
 #if ENABLED(GCODE_MACROS)
   #define GCODE_MACROS_SLOTS       5  // Up to 10 may be used
   #define GCODE_MACROS_SLOT_SIZE  50  // Maximum length of a single macro
@@ -3750,7 +3751,7 @@
 // @section custom main menu
 
 // Custom Menu: Main Menu
-//#define CUSTOM_MENU_MAIN
+#define CUSTOM_MENU_MAIN
 #if ENABLED(CUSTOM_MENU_MAIN)
   //#define CUSTOM_MENU_MAIN_TITLE "Custom Commands"
   #define CUSTOM_MENU_MAIN_SCRIPT_DONE "M117 User Script Done"
@@ -4268,3 +4269,11 @@
 
 // Report uncleaned reset reason from register r2 instead of MCUSR. Supported by Optiboot on AVR.
 //#define OPTIBOOT_RESET_REASON
+
+/**
+ * Z-Probe Offset para el clasificador de huevos
+ *
+ * Esta variable se usa para ajustar el punto de 'home' de la ruleta.
+ * Se define manualmente ya que no estamos usando las funciones de nivelación de cama.
+ */
+#define Z_PROBE_OFFSET_FROM_EXTRUDER  15.0  // grados dese el home de la ruleta
