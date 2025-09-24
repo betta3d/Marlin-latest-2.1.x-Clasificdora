@@ -45,6 +45,7 @@
 //#define DEBUG_EEPROM_OBSERVE
 
 #include "settings.h"
+#include "../feature/settings/egg_sorter_settings.h"
 
 #include "endstops.h"
 #include "planner.h"
@@ -597,6 +598,11 @@ typedef struct SettingsDataStruct {
     float shaping_y_frequency,                          // M593 Y F
           shaping_y_zeta;                               // M593 Y D
   #endif
+
+  //
+  // Egg Sorter Settings
+  //
+  EggSorterSettings sorter_settings;                    // M700
 
 } SettingsData;
 
@@ -3514,6 +3520,8 @@ void MarlinSettings::reset() {
       stepper.set_shaping_damping_ratio(Y_AXIS, SHAPING_ZETA_Y);
     #endif
   #endif
+
+  sorter_settings.reset();
 
   postprocess();
 

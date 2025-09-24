@@ -1125,6 +1125,9 @@ private:
     static void M702();
   #endif
 
+  // Custom G-code for egg sorter cycle
+  static void M700();
+
   #if ENABLED(GCODE_REPEAT_MARKERS)
     static void M808();
   #endif

@@ -964,6 +964,8 @@ void GcodeSuite::process_parsed_command(const bool no_ok/*=false*/) {
         case 702: M702(); break;                                  // M702: Unload Filament
       #endif
 
+      case 700: M700(); break;                                    // M700: Iniciar ciclo de la clasificadora de huevos
+
       #if ENABLED(CONTROLLER_FAN_EDITABLE)
         case 710: M710(); break;                                  // M710: Set Controller Fan settings
       #endif

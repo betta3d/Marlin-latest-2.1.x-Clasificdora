@@ -1,6 +1,12 @@
 #include "egg_weigher.h"
 #include <Arduino.h>
-#include "HX711.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include "../inc/MarlinConfig.h"
+
+#if MOTHERBOARD == BOARD_CLASIFICADORA_ESP32
+  // La librería HX711 debe instalarse en PlatformIO
+  #include "HX711.h"
 
 // Array global para almacenar los pesos
 float egg_weights[7] = {0.0f};
@@ -43,9 +49,9 @@ void initialize_egg_weigher() {
     if (scales[i].is_ready()) {
       scales[i].set_scale(1.0f); // Placeholder - ¡NECESITA CALIBRACIÓN!
       scales[i].tare();          // Poner a cero al inicio
-      SERIAL_printf("Scale %i initialized.\n", i + 1);
+  SERIAL_ECHO_MSG("Scale ", i + 1, " initialized.");
     } else {
-      SERIAL_printf("ERROR: Scale %i not found.\n", i + 1);
+  SERIAL_ECHO_MSG("ERROR: Scale ", i + 1, " not found.");
     }
   }
 
@@ -60,3 +66,5 @@ void initialize_egg_weigher() {
     0                   // Pin al Núcleo 0
   );
 }
+
+#endif // MOTHERBOARD == BOARD_CLASIFICADORA_ESP32

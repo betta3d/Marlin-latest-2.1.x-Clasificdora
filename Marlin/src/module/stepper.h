@@ -184,6 +184,35 @@
   #define ISR_E_STEPPER_CYCLES ISR_STEPPER_CYCLES // E is always interpolated, even for mixing extruders
 #endif
 
+// Fallbacks for disabled axes so references in LOGICAL_AXIS_MAP compile cleanly
+#ifndef ISR_X_STEPPER_CYCLES
+  #define ISR_X_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_Y_STEPPER_CYCLES
+  #define ISR_Y_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_Z_STEPPER_CYCLES
+  #define ISR_Z_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_I_STEPPER_CYCLES
+  #define ISR_I_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_J_STEPPER_CYCLES
+  #define ISR_J_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_K_STEPPER_CYCLES
+  #define ISR_K_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_U_STEPPER_CYCLES
+  #define ISR_U_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_V_STEPPER_CYCLES
+  #define ISR_V_STEPPER_CYCLES 0UL
+#endif
+#ifndef ISR_W_STEPPER_CYCLES
+  #define ISR_W_STEPPER_CYCLES 0UL
+#endif
+
 // And the total minimum loop time, not including the base
 #define _PLUS_AXIS_CYCLES(A) + (ISR_##A##_STEPPER_CYCLES)
 #define MIN_ISR_LOOP_CYCLES (ISR_MIXING_STEPPER_CYCLES LOGICAL_AXIS_MAP(_PLUS_AXIS_CYCLES))

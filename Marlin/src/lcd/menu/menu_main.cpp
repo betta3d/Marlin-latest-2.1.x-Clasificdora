@@ -106,6 +106,14 @@ void menu_configuration();
 
 #if ENABLED(CUSTOM_MENU_MAIN)
 
+  #include "../../feature/settings/egg_sorter_settings.h"
+
+  // Declaraciones de los submenús
+  void menu_sorter_settings();
+  void menu_sorter_settings_angles();
+  void menu_sorter_settings_speeds();
+  void menu_sorter_settings_weights();
+
   void _lcd_custom_menu_main_gcode(FSTR_P const fstr) {
     queue.inject(fstr);
     TERN_(CUSTOM_MENU_MAIN_SCRIPT_AUDIBLE_FEEDBACK, ui.completion_feedback());
@@ -116,107 +124,58 @@ void menu_configuration();
     START_MENU();
     BACK_ITEM(MSG_MAIN_MENU);
 
-    #define HAS_CUSTOM_ITEM_MAIN(N) (defined(MAIN_MENU_ITEM_##N##_DESC) && defined(MAIN_MENU_ITEM_##N##_GCODE))
+  MENU_ITEM_F(gcode, FPSTR(PSTR("Iniciar Ciclo")), FPSTR(PSTR("M700")));
+  SUBMENU_F(FPSTR(PSTR("Ajustes")), menu_sorter_settings);
 
-    #ifdef CUSTOM_MENU_MAIN_SCRIPT_DONE
-      #define _DONE_SCRIPT "\n" CUSTOM_MENU_MAIN_SCRIPT_DONE
-    #else
-      #define _DONE_SCRIPT ""
-    #endif
-    #define GCODE_LAMBDA_MAIN(N) []{ _lcd_custom_menu_main_gcode(F(MAIN_MENU_ITEM_##N##_GCODE _DONE_SCRIPT)); }
-    #define _CUSTOM_ITEM_MAIN(N) ACTION_ITEM_F(F(MAIN_MENU_ITEM_##N##_DESC), GCODE_LAMBDA_MAIN(N));
-    #define _CUSTOM_ITEM_MAIN_CONFIRM(N)          \
-      SUBMENU_F(F(MAIN_MENU_ITEM_##N##_DESC), []{ \
-          MenuItem_confirm::confirm_screen(       \
-            GCODE_LAMBDA_MAIN(N), nullptr,        \
-            F(MAIN_MENU_ITEM_##N##_DESC "?")      \
-          );                                      \
-        })
+    END_MENU();
+  }
 
-    #define CUSTOM_ITEM_MAIN(N) do{ \
-      constexpr char c = MAIN_MENU_ITEM_##N##_GCODE[strlen(MAIN_MENU_ITEM_##N##_GCODE) - 1]; \
-      static_assert(c != '\n' && c != '\r', "MAIN_MENU_ITEM_" STRINGIFY(N) "_GCODE cannot have a newline at the end. Please remove it."); \
-      if (ENABLED(MAIN_MENU_ITEM_##N##_CONFIRM)) \
-        _CUSTOM_ITEM_MAIN_CONFIRM(N); \
-      else \
-        _CUSTOM_ITEM_MAIN(N); \
-    }while(0)
+  // Submenú principal de Ajustes
+  void menu_sorter_settings() {
+    START_MENU();
+  BACK_ITEM_F(FPSTR(PSTR("Clasificadora")));
+  SUBMENU_F(FPSTR(PSTR("Ángulos de Fase")), menu_sorter_settings_angles);
+  SUBMENU_F(FPSTR(PSTR("Velocidades")), menu_sorter_settings_speeds);
+  SUBMENU_F(FPSTR(PSTR("Pesos (gramos)")), menu_sorter_settings_weights);
+  MENU_ITEM_F(gcode, FPSTR(PSTR("Guardar Ajustes")), FPSTR(PSTR("M500")));
+  MENU_ITEM_F(gcode, FPSTR(PSTR("Cargar Ajustes")), FPSTR(PSTR("M501")));
+  MENU_ITEM_F(gcode, FPSTR(PSTR("Restaurar Defectos")), FPSTR(PSTR("M502")));
+    END_MENU();
+  }
 
-    #if HAS_CUSTOM_ITEM_MAIN(1)
-      CUSTOM_ITEM_MAIN(1);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(2)
-      CUSTOM_ITEM_MAIN(2);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(3)
-      CUSTOM_ITEM_MAIN(3);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(4)
-      CUSTOM_ITEM_MAIN(4);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(5)
-      CUSTOM_ITEM_MAIN(5);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(6)
-      CUSTOM_ITEM_MAIN(6);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(7)
-      CUSTOM_ITEM_MAIN(7);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(8)
-      CUSTOM_ITEM_MAIN(8);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(9)
-      CUSTOM_ITEM_MAIN(9);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(10)
-      CUSTOM_ITEM_MAIN(10);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(11)
-      CUSTOM_ITEM_MAIN(11);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(12)
-      CUSTOM_ITEM_MAIN(12);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(13)
-      CUSTOM_ITEM_MAIN(13);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(14)
-      CUSTOM_ITEM_MAIN(14);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(15)
-      CUSTOM_ITEM_MAIN(15);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(16)
-      CUSTOM_ITEM_MAIN(16);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(17)
-      CUSTOM_ITEM_MAIN(17);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(18)
-      CUSTOM_ITEM_MAIN(18);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(19)
-      CUSTOM_ITEM_MAIN(19);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(20)
-      CUSTOM_ITEM_MAIN(20);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(21)
-      CUSTOM_ITEM_MAIN(21);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(22)
-      CUSTOM_ITEM_MAIN(22);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(23)
-      CUSTOM_ITEM_MAIN(23);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(24)
-      CUSTOM_ITEM_MAIN(24);
-    #endif
-    #if HAS_CUSTOM_ITEM_MAIN(25)
-      CUSTOM_ITEM_MAIN(25);
-    #endif
+  // Submenú para Ángulos
+  void menu_sorter_settings_angles() {
+    START_MENU();
+  BACK_ITEM_F(FPSTR(PSTR("Ajustes")));
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Inicio Carga")), &sorter_settings.phase1_start_angle, 0, 360);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Fin Carga")), &sorter_settings.phase1_end_angle, 0, 360);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Fin Transporte")), &sorter_settings.phase2_end_angle, 0, 360);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Fin Descarga")), &sorter_settings.phase3_end_angle, 0, 360);
+    END_MENU();
+  }
+
+  // Submenú para Velocidades
+  void menu_sorter_settings_speeds() {
+    START_MENU();
+  BACK_ITEM_F(FPSTR(PSTR("Ajustes")));
+    EDIT_ITEM_F(float5, FPSTR(PSTR("Vel. Carga")), &sorter_settings.phase1_feedrate, 10, 10000);
+    EDIT_ITEM_F(float5, FPSTR(PSTR("Vel. Transporte")), &sorter_settings.phase2_feedrate, 10, 10000);
+    EDIT_ITEM_F(float5, FPSTR(PSTR("Vel. Descarga")), &sorter_settings.phase3_feedrate, 10, 10000);
+    EDIT_ITEM_F(float5, FPSTR(PSTR("Vel. Retorno")), &sorter_settings.phase4_feedrate, 10, 10000);
+    END_MENU();
+  }
+
+  // Submenú para Pesos
+  void menu_sorter_settings_weights() {
+    START_MENU();
+  BACK_ITEM_F(FPSTR(PSTR("Ajustes")));
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Peso Est. 1")), &sorter_settings.weight_thresholds[0], 1, 100);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Peso Est. 2")), &sorter_settings.weight_thresholds[1], 1, 100);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Peso Est. 3")), &sorter_settings.weight_thresholds[2], 1, 100);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Peso Est. 4")), &sorter_settings.weight_thresholds[3], 1, 100);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Peso Est. 5")), &sorter_settings.weight_thresholds[4], 1, 100);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Peso Est. 6")), &sorter_settings.weight_thresholds[5], 1, 100);
+    EDIT_ITEM_F(float3, FPSTR(PSTR("Peso Est. 7")), &sorter_settings.weight_thresholds[6], 1, 100);
     END_MENU();
   }
 

@@ -29,6 +29,7 @@
  */
 
 #include "feature/egg_weigher.h"
+#include "libs/I2C_expander.h"
 
 #include "MarlinCore.h"
 
@@ -1138,6 +1139,9 @@ inline void tmc_standby_setup() {
  *  - Set Marlin to RUNNING State
  */
 void setup() {
+  #if MOTHERBOARD == BOARD_CLASIFICADORA_ESP32
+    mcp23017.begin();  // Inicializar expansor MCP23017
+  #endif
   initialize_egg_weigher();
 
   #ifdef FASTIO_INIT
